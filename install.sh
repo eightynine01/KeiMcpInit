@@ -308,7 +308,7 @@ args = ["-y", "@upstash/context7-mcp"]'
     return 0
 }
 
-# keimcp 설치 상태 확인 및 자동 설치 (토큰 필요)
+# keimcp 설치 상태 확인 및 토큰 조회 안내
 check_keimcp() {
     local platforms=($(detect_platforms))
     local installed=false
@@ -316,9 +316,6 @@ check_keimcp() {
     echo ""
     echo -e "${CYAN}🔧 keimcp 설치 상태 확인${NC}"
     echo -e "${YELLOW}  ⚠️  keimcp는 인증 토큰이 필요합니다${NC}"
-    echo -e "${YELLOW}  ℹ️  LLM에게 다음을 요청하세요:${NC}"
-    echo -e "${YELLOW}     \"현재 사용 중인 플랫폼의 설정 파일에 keimcp를 추가해줘.\"${NC}"
-    echo ""
 
     for platform in "${platforms[@]}"; do
         case $platform in
@@ -337,6 +334,10 @@ check_keimcp() {
                     echo -e '        }'
                     echo -e '      }'
                     echo -e '    }'
+                else
+                    echo -e "  ${GREEN}[Claude Desktop]${NC} ✓ 설치됨"
+                    echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                    echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 fi
                 ;;
             claude-code)
@@ -346,6 +347,10 @@ check_keimcp() {
                     echo -e "    claude mcp add keimcp --transport sse \\"
                     echo -e "      --url https://mcp.keiailab.dev/sse \\"
                     echo -e '      --header \"Authorization: Bearer <YOUR_TOKEN>\"'
+                else
+                    echo -e "  ${GREEN}[Claude Code]${NC} ✓ 설치됨"
+                    echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                    echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 fi
                 ;;
             cursor)
@@ -364,6 +369,10 @@ check_keimcp() {
                     echo -e '        }'
                     echo -e '      }'
                     echo -e '    }'
+                else
+                    echo -e "  ${GREEN}[Cursor]${NC} ✓ 설치됨"
+                    echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                    echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 fi
                 ;;
             codex)
@@ -375,6 +384,10 @@ check_keimcp() {
                     echo -e '    type = "sse"'
                     echo -e '    url = "https://mcp.keiailab.dev/sse"'
                     echo -e '    env = {AUTHORIZATION = "Bearer <YOUR_TOKEN>"}'
+                else
+                    echo -e "  ${GREEN}[Codex]${NC} ✓ 설치됨"
+                    echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                    echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 fi
                 ;;
             gemini)
@@ -393,17 +406,35 @@ check_keimcp() {
                     echo -e '        }'
                     echo -e '      }'
                     echo -e '    }'
+                else
+                    echo -e "  ${GREEN}[Gemini CLI]${NC} ✓ 설치됨"
+                    echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                    echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 fi
                 ;;
             opencode)
                 echo -e "  ${GREEN}[OpenCode]${NC} ⚡ 현재 실행 중"
+                echo -e "  ${YELLOW}💡 토큰 조회 방법:${NC}"
+                echo -e "  ${CYAN}   \"LLM에게 요청: keimcp의 api_key_list() 도구를 사용해서 현재 API Key 목록을 조회해줘.\"${NC}"
                 ;;
         esac
     done
 
     echo ""
-    echo -e "${YELLOW}💡 LLM에게 다음처럼 요청하세요:${NC}"
-    echo -e "${CYAN}   \"현재 사용 중인 ${platforms[0]}의 설정 파일에 위에서 안내한 keimcp 설정을 <YOUR_TOKEN>을 실제 토큰으로 교체하여 추가해줘.\"${NC}"
+    echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}  ℹ️  keimcp MCP 도구 예시${NC}"
+    echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${YELLOW}토큰 조회:${NC}"
+    echo -e "  ${CYAN}api_key_list()${NC} - 현재 API Key 목록 조회"
+    echo -e "  ${CYAN}api_key_create()${NC} - 새 API Key 발급"
+    echo -e "  ${CYAN}api_key_revoke()${NC} - API Key 폐기"
+    echo ""
+    echo -e "${YELLOW}프로젝트 생성:${NC}"
+    echo -e "  ${CYAN}project_create()${NC} - KeiBase 프로젝트 생성"
+    echo -e "  ${CYAN}project_list()${NC} - 프로젝트 목록 조회"
+    echo -e "  ${CYAN}project_get()${NC} - 프로젝트 상세 조회"
+    echo ""
 
     return 0
 }
